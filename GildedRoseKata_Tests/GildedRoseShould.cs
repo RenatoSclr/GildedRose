@@ -61,5 +61,35 @@ namespace GildedRoseKata_Tests
                 Assert.Equal(expectedSellIn, actualSellIn);
             }
         }
+
+
+        [Fact]
+        public void Be_Same_Result_Between_GildedRose_and_GildedRoseGolden_with_100_days()
+        {
+            var itemsGildedRose = GetItems();
+            var itemsGildedRoseGolden = GetItems();
+
+            int days = 100;
+
+            GildedRose gildedRose = new GildedRose(itemsGildedRose);
+            GildedRoseGolden gildedRoseGolden = new GildedRoseGolden(itemsGildedRoseGolden);
+
+            for (int i = 0; i < days; i++)
+            {
+                gildedRose.UpdateQuality();
+                gildedRoseGolden.UpdateQuality();
+
+                var gildedRoseQuality = gildedRose.Items.Select(item => item.Quality).ToArray();
+                var gildedRoseGoldenQuality = gildedRoseGolden.Items.Select(item => item.Quality).ToArray();
+
+                Assert.Equal(gildedRoseQuality, gildedRoseGoldenQuality);
+
+
+                var gildedRoseSellIn = gildedRose.Items.Select(item => item.SellIn).ToArray();
+                var gildedRoseGoldenSellIn = gildedRoseGolden.Items.Select(item => item.SellIn).ToArray();
+
+                Assert.Equal(gildedRoseSellIn, gildedRoseGoldenSellIn);
+            }
+        }
     }
 }
