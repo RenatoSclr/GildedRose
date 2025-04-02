@@ -40,76 +40,37 @@
 
         private static void UpdateAgedBrieItem(Item item)
         {
-            if (item.Quality < MAX_QUALITY)
-            {
-                IncreaseQuality(item);
-            }
-
-
-            if (item.SellIn < MIN_QUALITY)
-            {
-                if (item.Quality < MAX_QUALITY)
-                {
-                    IncreaseQuality(item);
-                }
-            }
+            TryIncreaseQuality(item, 1);
+            if (item.SellIn < 0) TryIncreaseQuality(item, 1);
         }
 
         private static void UpdateBackstagePassesItem(Item item)
         {
-            if (item.Quality < MAX_QUALITY)
+            if (item.SellIn < 0)
             {
-                IncreaseQuality(item);
+                item.Quality = 0;
+                return;
             }
 
-            if (item.SellIn < 10)
-            {
-                if (item.Quality < MAX_QUALITY)
-                {
-                    IncreaseQuality(item);
-                }
-            }
-
-            if (item.SellIn < 5)
-            {
-                if (item.Quality < MAX_QUALITY)
-                {
-                    IncreaseQuality(item);
-                }
-            }
-
-            if (item.SellIn < MIN_QUALITY)
-            {
-                item.Quality = MIN_QUALITY;
-            }
+            TryIncreaseQuality(item, 1);
+            if (item.SellIn < 10) TryIncreaseQuality(item, 1);
+            if (item.SellIn < 5) TryIncreaseQuality(item, 1);
         }
 
         private static void UpdateNormalItem(Item item)
         {
-            if (item.Quality > MIN_QUALITY)
-            {
-                DecreaseQuality(item);
-            }
-
-            if (item.SellIn < MIN_QUALITY)
-            {
-
-                if (item.Quality > MIN_QUALITY)
-                {
-                    DecreaseQuality(item);
-                }
-
-            }
+            TryDecreaseQuality(item, 1);
+            if (item.SellIn < 0) TryDecreaseQuality(item, 1);
         }
 
-        private static void IncreaseQuality(Item item)
+        private static void TryIncreaseQuality(Item item, int amount)
         {
-            item.Quality += 1;
+            item.Quality = Math.Min(item.Quality + amount, MAX_QUALITY);
         }
 
-        private static void DecreaseQuality(Item item)
+        private static void TryDecreaseQuality(Item item, int amount)
         {
-            item.Quality -= 1;
+            item.Quality = Math.Max(item.Quality - amount, MIN_QUALITY);
         }
     }
 }
