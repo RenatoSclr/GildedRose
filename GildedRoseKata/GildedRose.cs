@@ -30,69 +30,93 @@ namespace GildedRoseKata
 
                 item.SellIn -= 1;
 
-                if (item.Name == AGED_BRIE)
+                switch (item.Name)
                 {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality += 1;
-                    }
-
-
-                    if (item.SellIn < 0)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality += 1;
-                        }    
-                    }
+                    case AGED_BRIE:
+                        UpdateAgedBrieItem(item);
+                        break;
+                    case BACKSTAGES:
+                        UpdateBackstagePassesItem(item);
+                        break;
+                    default:
+                        UpdateNormalItem(item);
+                        break;
                 }
-
-                else if (item.Name == BACKSTAGES)
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality += 1;
-                    }
-
-                    if (item.SellIn < 10)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality += 1;
-                        }
-                    }
-
-                    if (item.SellIn < 5)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality += 1;
-                        }
-                    }
-
-                    if (item.SellIn < 0)
-                    {
-                         item.Quality = 0;
-                    }
-                }
-                else
-                {
-                    if (item.Quality > 0)
-                    {
-                        item.Quality -= 1;
-                    }
-
-                    if (item.SellIn < 0)
-                    {
-                      
-                        if (item.Quality > 0)
-                        {
-                            item.Quality -= 1;
-                        }
-                        
-                    }
-                }     
             }
+        }
+
+        private static void UpdateAgedBrieItem(Item item)
+        {
+            if (item.Quality < 50)
+            {
+                IncreaseQuality(item);
+            }
+
+
+            if (item.SellIn < 0)
+            {
+                if (item.Quality < 50)
+                {
+                    IncreaseQuality(item);
+                }
+            }
+        }
+
+        private static void UpdateBackstagePassesItem(Item item)
+        {
+            if (item.Quality < 50)
+            {
+                IncreaseQuality(item);
+            }
+
+            if (item.SellIn < 10)
+            {
+                if (item.Quality < 50)
+                {
+                    IncreaseQuality(item);
+                }
+            }
+
+            if (item.SellIn < 5)
+            {
+                if (item.Quality < 50)
+                {
+                    IncreaseQuality(item);
+                }
+            }
+
+            if (item.SellIn < 0)
+            {
+                item.Quality = 0;
+            }
+        }
+
+        private static void UpdateNormalItem(Item item)
+        {
+            if (item.Quality > 0)
+            {
+                DecreaseQuality(item);
+            }
+
+            if (item.SellIn < 0)
+            {
+
+                if (item.Quality > 0)
+                {
+                    DecreaseQuality(item);
+                }
+
+            }
+        }
+
+        private static void IncreaseQuality(Item item)
+        {
+            item.Quality += 1;
+        }
+
+        private static void DecreaseQuality(Item item)
+        {
+            item.Quality -= 1;
         }
     }
 }
