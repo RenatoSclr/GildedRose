@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GildedRoseKata
+﻿namespace GildedRoseKata
 {
     public class GildedRose
     {
         private const string AGED_BRIE = "Aged Brie";
         private const string BACKSTAGES = "Backstage passes to a TAFKAL80ETC concert";
         private const string SULFURAS = "Sulfuras, Hand of Ragnaros";
+        private const int MAX_QUALITY = 50;
+        private const int MIN_QUALITY = 0;
 
         public IList<Item> Items;
 
@@ -23,10 +19,7 @@ namespace GildedRoseKata
         {
             foreach (Item item in Items)
             {
-                if (item.Name == SULFURAS)
-                {
-                    continue;
-                }
+                if (item.Name is SULFURAS) continue;
 
                 item.SellIn -= 1;
 
@@ -47,15 +40,15 @@ namespace GildedRoseKata
 
         private static void UpdateAgedBrieItem(Item item)
         {
-            if (item.Quality < 50)
+            if (item.Quality < MAX_QUALITY)
             {
                 IncreaseQuality(item);
             }
 
 
-            if (item.SellIn < 0)
+            if (item.SellIn < MIN_QUALITY)
             {
-                if (item.Quality < 50)
+                if (item.Quality < MAX_QUALITY)
                 {
                     IncreaseQuality(item);
                 }
@@ -64,14 +57,14 @@ namespace GildedRoseKata
 
         private static void UpdateBackstagePassesItem(Item item)
         {
-            if (item.Quality < 50)
+            if (item.Quality < MAX_QUALITY)
             {
                 IncreaseQuality(item);
             }
 
             if (item.SellIn < 10)
             {
-                if (item.Quality < 50)
+                if (item.Quality < MAX_QUALITY)
                 {
                     IncreaseQuality(item);
                 }
@@ -79,29 +72,29 @@ namespace GildedRoseKata
 
             if (item.SellIn < 5)
             {
-                if (item.Quality < 50)
+                if (item.Quality < MAX_QUALITY)
                 {
                     IncreaseQuality(item);
                 }
             }
 
-            if (item.SellIn < 0)
+            if (item.SellIn < MIN_QUALITY)
             {
-                item.Quality = 0;
+                item.Quality = MIN_QUALITY;
             }
         }
 
         private static void UpdateNormalItem(Item item)
         {
-            if (item.Quality > 0)
+            if (item.Quality > MIN_QUALITY)
             {
                 DecreaseQuality(item);
             }
 
-            if (item.SellIn < 0)
+            if (item.SellIn < MIN_QUALITY)
             {
 
-                if (item.Quality > 0)
+                if (item.Quality > MIN_QUALITY)
                 {
                     DecreaseQuality(item);
                 }
