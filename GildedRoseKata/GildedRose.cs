@@ -9,12 +9,14 @@ namespace GildedRoseKata
         private const string SULFURAS = "Sulfuras, Hand of Ragnaros";
 
         private readonly ItemModifier _itemModifier;
+        private readonly ItemFactory _factory;
         public IList<Item> Items;
 
         public GildedRose(IList<Item> items)
         {
             Items = items;
             _itemModifier = new ItemModifier();
+            _factory = new ItemFactory(_itemModifier);
         }
 
         public void UpdateQuality()
@@ -24,20 +26,10 @@ namespace GildedRoseKata
             {
                 if (item.Name is SULFURAS) continue;
 
-               _itemModifier.DecreaseSellIn(item);
+                _itemModifier.DecreaseSellIn(item);
 
-                switch (item.Name)
-                {
-                    case AGED_BRIE:
-                        new AgedBrieItem(_itemModifier).UpdateItem(item);
-                        break;
-                    case BACKSTAGES:
-                        new BackstagePassesItem(_itemModifier).UpdateItem(item);
-                        break;
-                    default:
-                        new NormalItem(_itemModifier).UpdateItem(item);
-                        break;
-                }
+                var strategy = _factory.GetStrategy(item);
+                strategy.UpdateItem(item);
             }
         }
     }
