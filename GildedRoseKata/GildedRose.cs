@@ -32,7 +32,7 @@
                         UpdateBackstagePassesItem(item);
                         break;
                     default:
-                        UpdateNormalItem(item);
+                        new NormalItem().UpdateItem(item);
                         break;
                 }
             }
@@ -57,20 +57,9 @@
             if (item.SellIn < 5) TryIncreaseQuality(item, 1);
         }
 
-        private static void UpdateNormalItem(Item item)
-        {
-            TryDecreaseQuality(item, 1);
-            if (item.SellIn < 0) TryDecreaseQuality(item, 1);
-        }
-
         private static void TryIncreaseQuality(Item item, int amount)
         {
             item.Quality = Math.Min(item.Quality + amount, MAX_QUALITY);
-        }
-
-        private static void TryDecreaseQuality(Item item, int amount)
-        {
-            item.Quality = Math.Max(item.Quality - amount, MIN_QUALITY);
         }
     }
 }
