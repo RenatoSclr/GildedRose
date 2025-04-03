@@ -1,38 +1,41 @@
-﻿namespace GildedRoseKata
+﻿using GildedRoseKata.Items;
+
+namespace GildedRoseKata
 {
     public class GildedRose
     {
         private const string AGED_BRIE = "Aged Brie";
         private const string BACKSTAGES = "Backstage passes to a TAFKAL80ETC concert";
         private const string SULFURAS = "Sulfuras, Hand of Ragnaros";
-        private const int MAX_QUALITY = 50;
-        private const int MIN_QUALITY = 0;
 
+        private readonly ItemModifier _itemModifier;
         public IList<Item> Items;
 
         public GildedRose(IList<Item> items)
         {
             Items = items;
+            _itemModifier = new ItemModifier();
         }
 
         public void UpdateQuality()
         {
+            var itemModifier = new ItemModifier();
             foreach (Item item in Items)
             {
                 if (item.Name is SULFURAS) continue;
 
-                item.SellIn -= 1;
+               _itemModifier.DecreaseSellIn(item);
 
                 switch (item.Name)
                 {
                     case AGED_BRIE:
-                        new AgedBrieItem().UpdateItem(item);
+                        new AgedBrieItem(_itemModifier).UpdateItem(item);
                         break;
                     case BACKSTAGES:
-                        new BackstagePassesItem().UpdateItem(item);
+                        new BackstagePassesItem(_itemModifier).UpdateItem(item);
                         break;
                     default:
-                        new NormalItem().UpdateItem(item);
+                        new NormalItem(_itemModifier).UpdateItem(item);
                         break;
                 }
             }

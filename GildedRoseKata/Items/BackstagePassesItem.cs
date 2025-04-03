@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GildedRoseKata
+namespace GildedRoseKata.Items
 {
-    public class BackstagePassesItem : IUpdateItem
+    public class BackstagePassesItem(ItemModifier _itemModifier) : IUpdateItem
     {
         public void UpdateItem(Item item)
         {
@@ -16,11 +16,11 @@ namespace GildedRoseKata
                 return;
             }
 
-            item.Quality = Math.Min(item.Quality + 1, 50);
+            _itemModifier.IncreaseQuality(item);
 
-            if (item.SellIn < 10) item.Quality = Math.Min(item.Quality + 1, 50);
+            if (item.SellIn < 10) _itemModifier.IncreaseQuality(item);
 
-            if (item.SellIn < 5) item.Quality = Math.Min(item.Quality + 1, 50);
+            if (item.SellIn < 5) _itemModifier.IncreaseQuality(item);
         }
     } 
 }
