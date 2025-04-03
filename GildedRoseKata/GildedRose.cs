@@ -26,7 +26,7 @@
                 switch (item.Name)
                 {
                     case AGED_BRIE:
-                        UpdateAgedBrieItem(item);
+                        new AgedBrieItem().UpdateItem(item);
                         break;
                     case BACKSTAGES:
                         new BackstagePassesItem().UpdateItem(item);
@@ -36,17 +36,6 @@
                         break;
                 }
             }
-        }
-
-        private static void UpdateAgedBrieItem(Item item)
-        {
-            TryIncreaseQuality(item, 1);
-            if (item.SellIn < 0) TryIncreaseQuality(item, 1);
-        }
-
-        private static void TryIncreaseQuality(Item item, int amount)
-        {
-            item.Quality = Math.Min(item.Quality + amount, MAX_QUALITY);
         }
     }
 }
