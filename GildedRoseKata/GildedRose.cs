@@ -29,7 +29,7 @@
                         UpdateAgedBrieItem(item);
                         break;
                     case BACKSTAGES:
-                        UpdateBackstagePassesItem(item);
+                        new BackstagePassesItem().UpdateItem(item);
                         break;
                     default:
                         new NormalItem().UpdateItem(item);
@@ -42,19 +42,6 @@
         {
             TryIncreaseQuality(item, 1);
             if (item.SellIn < 0) TryIncreaseQuality(item, 1);
-        }
-
-        private static void UpdateBackstagePassesItem(Item item)
-        {
-            if (item.SellIn < 0)
-            {
-                item.Quality = 0;
-                return;
-            }
-
-            TryIncreaseQuality(item, 1);
-            if (item.SellIn < 10) TryIncreaseQuality(item, 1);
-            if (item.SellIn < 5) TryIncreaseQuality(item, 1);
         }
 
         private static void TryIncreaseQuality(Item item, int amount)
